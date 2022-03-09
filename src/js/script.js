@@ -96,13 +96,19 @@ function updateProgressBar(event) {
     let currentSeconds = Math.floor(currentTime % 60);
     if (currentSeconds < 10) currentSeconds = `0${currentSeconds}`;
     // Delay switching current Element to avoid NaN
-    if (currentSeconds) {
-      currentTimeEl.textContent = `${currentMunites}:${currentSeconds}`;
-      console.log(currentTimeEl)
-    }
+    currentTimeEl.textContent = `${currentMunites}:${currentSeconds}`;
   }
+}
+
+function setProgressBar(event) {
+  const width = this.clientWidth;
+  const clickX = event.offsetX;
+  const { duration } = music;
+  music.currentTime = (clickX / width) * duration;
 }
 
 prevBtn.addEventListener('click', prevSong);
 nextBtn.addEventListener('click', nextSong);
+music.addEventListener('ended', nextSong);
 music.addEventListener('timeupdate', updateProgressBar);
+progressContainer.addEventListener('click', setProgressBar);
